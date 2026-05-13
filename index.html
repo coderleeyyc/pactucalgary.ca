@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PACT — Policy, AI, and Civic Technology</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#06090f;--bg2:#080d17;
+  --blue:#00b4ff;--blue2:#0077bb;--blue3:#003355;
+  --acid:#d4ff00;--white:#eaf6ff;--muted:#3d6a88;--muted2:#1e3d54;
+  --orb:'Orbitron',sans-serif;--mono:'Share Tech Mono','Courier New',monospace;--sans:'DM Sans',sans-serif
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);font-size:15px;line-height:1.7;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,140,200,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,140,200,.05) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.06) 3px,rgba(0,0,0,.06) 4px);pointer-events:none;z-index:0}
+section,nav,footer,.wave-wrap{position:relative;z-index:1}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 3.5rem;border-bottom:1px solid rgba(0,140,200,.18);background:rgba(6,9,15,.92);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:.8rem;text-decoration:none}
+.logo-text{font-family:var(--orb);font-size:.95rem;font-weight:700;color:var(--white);letter-spacing:4px}
+.logo-text em{color:var(--blue);font-style:normal}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-family:var(--mono);font-size:.63rem;color:var(--muted);text-decoration:none;letter-spacing:2px;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--blue)}
+.btn-nav{font-family:var(--mono);font-size:.63rem;letter-spacing:2px;text-transform:uppercase;color:var(--bg);background:var(--blue);border:none;padding:.55rem 1.4rem;cursor:pointer;text-decoration:none;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);transition:background .2s;display:inline-block}
+.btn-nav:hover{background:var(--acid);color:#111}
+
+/* WAVE WRAP */
+.wave-wrap{line-height:0;overflow:hidden}
+.wave-wrap svg{display:block;width:100%}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:5rem 3.5rem 7rem;position:relative;overflow:hidden}
+.hero-blob-main{position:absolute;right:-1%;top:50%;transform:translateY(-52%);opacity:.17;pointer-events:none;z-index:0}
+.hero-blob-ghost{position:absolute;left:-5%;bottom:8%;opacity:.08;pointer-events:none;z-index:0}
+.hero-content{position:relative;z-index:1;max-width:780px}
+.hero-corner{position:absolute;top:2.5rem;right:3.5rem;font-family:var(--mono);font-size:.58rem;color:var(--muted);letter-spacing:2px;line-height:2;text-align:right;border-right:1px solid var(--muted2);padding-right:.9rem}
+.sys-tag{font-family:var(--mono);font-size:.63rem;color:var(--acid);letter-spacing:4px;text-transform:uppercase;margin-bottom:1.8rem;display:flex;align-items:center;gap:.7rem}
+.sys-tag::before{content:'▶';font-size:.5rem}
+.blink{animation:blink 1s step-end infinite;color:var(--blue)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.hero-title{font-family:var(--orb);font-weight:900;font-size:clamp(5.5rem,14vw,12rem);line-height:.9;letter-spacing:-3px;color:var(--white);position:relative;margin-bottom:.4rem;display:inline-block}
+.hero-title::before,.hero-title::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%}
+.hero-title::before{color:var(--blue);clip-path:polygon(0 18%,100% 18%,100% 34%,0 34%);transform:translateX(-4px);animation:g1 5s infinite}
+.hero-title::after{color:var(--acid);clip-path:polygon(0 63%,100% 63%,100% 75%,0 75%);transform:translateX(4px);animation:g2 5s infinite}
+@keyframes g1{0%,88%,100%{opacity:0;transform:translateX(0)}90%{opacity:.8;transform:translateX(-5px)}93%{opacity:.5;transform:translateX(4px)}96%{opacity:.8;transform:translateX(-3px)}}
+@keyframes g2{0%,88%,100%{opacity:0;transform:translateX(0)}91%{opacity:.7;transform:translateX(5px)}94%{opacity:.4;transform:translateX(-3px)}97%{opacity:.7;transform:translateX(2px)}}
+.hero-sub{font-family:var(--mono);font-size:clamp(.72rem,1.5vw,.92rem);color:var(--blue);letter-spacing:5px;text-transform:uppercase;margin-bottom:1.8rem}
+.hero-desc{font-size:.95rem;color:#5a8aaa;line-height:2;max-width:560px;margin-bottom:2.8rem}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-p{font-family:var(--mono);font-size:.66rem;letter-spacing:3px;text-transform:uppercase;color:var(--bg);background:var(--blue);border:none;padding:.9rem 2.2rem;cursor:pointer;text-decoration:none;clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);display:inline-block;transition:background .2s,transform .15s}
+.btn-p:hover{background:var(--acid);color:#0a0d14;transform:translateY(-2px)}
+.btn-o{font-family:var(--mono);font-size:.66rem;letter-spacing:3px;text-transform:uppercase;color:var(--blue);background:transparent;border:1px solid var(--blue2);padding:.9rem 2.2rem;cursor:pointer;text-decoration:none;clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);display:inline-block;transition:all .2s}
+.btn-o:hover{border-color:var(--blue);color:var(--white);background:rgba(0,100,180,.12)}
+.ticker{position:absolute;bottom:0;left:0;right:0;border-top:1px solid rgba(0,180,255,.14);border-bottom:1px solid rgba(0,180,255,.14);background:rgba(0,90,150,.06);padding:.5rem 0;overflow:hidden;white-space:nowrap}
+.ticker-inner{display:inline-block;animation:tick 36s linear infinite;font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:3px}
+@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* SECTION COMMON */
+.s{padding:6rem 3.5rem}
+.s.dk{background:var(--bg2)}
+.slbl{font-family:var(--mono);font-size:.6rem;color:var(--blue);letter-spacing:4px;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.7rem}
+.slbl::after{content:'';flex:1;max-width:60px;height:1px;background:var(--blue3)}
+.stitle{font-family:var(--orb);font-size:clamp(1.8rem,4.5vw,3.1rem);font-weight:700;line-height:1.05;color:var(--white);margin-bottom:1.4rem}
+.stitle .ac{color:var(--blue)}
+.sbody{font-size:.92rem;color:#5a8aaa;line-height:2;max-width:600px}
+hr.dv{border:none;border-top:1px solid rgba(0,100,160,.14);margin:0 3.5rem}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-top:3.5rem;align-items:start}
+.stats{display:flex;flex-direction:column;gap:2rem}
+.stat{border-left:3px solid var(--blue2);padding-left:1.5rem}
+.stat .num{font-family:var(--orb);font-size:3.2rem;font-weight:900;color:var(--blue);line-height:1}
+.stat .num.ac2{color:var(--acid)}
+.stat .lbl{font-family:var(--mono);font-size:.62rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:.3rem}
+
+/* WHY */
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-top:3rem}
+.wcard{position:relative;padding:2rem 1.8rem;border:1px solid rgba(0,100,160,.2);background:rgba(6,9,15,.6);transition:border-color .3s,transform .2s;overflow:hidden}
+.wcard::before{content:'';position:absolute;top:0;bottom:0;left:0;width:3px;background:var(--blue2);transition:background .3s}
+.wcard:hover{border-color:rgba(0,180,255,.38);transform:translateY(-3px)}
+.wcard:hover::before{background:var(--blue)}
+.wid{font-family:var(--mono);font-size:.57rem;color:var(--muted);letter-spacing:3px;margin-bottom:.9rem}
+.wtitle{font-family:var(--orb);font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.7rem}
+.wbody{font-size:.84rem;color:#4a7a90;line-height:1.9}
+
+/* EXPLORE */
+.ex-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(176px,1fr));margin-top:3rem;border:1px solid rgba(0,100,160,.18)}
+.ex-item{padding:1.4rem 1.2rem;border-right:1px solid rgba(0,100,160,.13);border-bottom:1px solid rgba(0,100,160,.13);background:var(--bg);transition:background .2s;cursor:default}
+.ex-item:hover{background:rgba(0,60,100,.28)}
+.ex-dot{width:5px;height:5px;background:var(--blue2);border-radius:50%;margin-bottom:.8rem;transition:background .2s}
+.ex-item:hover .ex-dot{background:var(--acid)}
+.ex-text{font-family:var(--mono);font-size:.7rem;color:#4a7a90;letter-spacing:1px;line-height:1.5;transition:color .2s}
+.ex-item:hover .ex-text{color:var(--white)}
+
+/* EVENTS */
+.ev-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin-top:3rem}
+.ecard{background:var(--bg);border:1px solid rgba(0,100,160,.18);padding:1.8rem;position:relative;overflow:hidden;transition:border-color .3s}
+.ecard::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue2),transparent);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.ecard:hover{border-color:rgba(0,180,255,.3)}
+.ecard:hover::after{transform:scaleX(1)}
+.enum{font-family:var(--mono);font-size:.57rem;color:var(--muted);letter-spacing:2px;margin-bottom:.7rem}
+.etitle{font-family:var(--orb);font-size:.95rem;font-weight:700;color:var(--white);margin-bottom:.5rem}
+.edesc{font-size:.82rem;color:#3d6a80;line-height:1.8}
+
+/* WHO */
+.who-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:4rem;margin-top:3rem;align-items:start}
+.tags{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.5rem}
+.tag{font-family:var(--mono);font-size:.62rem;letter-spacing:1px;color:var(--blue);border:1px solid var(--blue3);padding:.38rem .9rem;text-transform:uppercase;transition:all .2s;clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%)}
+.tag:hover{background:var(--blue3);color:var(--white)}
+.noexp{margin-top:2rem;background:rgba(212,255,0,.04);border:1px solid rgba(212,255,0,.22);padding:1.5rem;position:relative}
+.noexp::before{content:'// NO EXPERIENCE NEEDED';position:absolute;top:-.65rem;left:1rem;background:var(--bg2);padding:0 .5rem;font-family:var(--mono);font-size:.58rem;color:var(--acid)}
+.noexp p{font-family:var(--mono);font-size:.78rem;color:rgba(212,255,0,.68);line-height:1.9}
+.who-right p{font-size:.9rem;color:#5a8aaa;line-height:2}
+.who-right p+p{margin-top:1rem}
+
+/* EXEC */
+.exec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;margin-top:3rem;border:1px solid rgba(0,80,130,.18)}
+.erole{padding:1.5rem;background:var(--bg2);border-right:1px solid rgba(0,80,130,.13);border-bottom:1px solid rgba(0,80,130,.13);transition:background .2s}
+.erole:hover{background:var(--bg)}
+.erid{font-family:var(--mono);font-size:.57rem;color:var(--muted);letter-spacing:2px;margin-bottom:.5rem}
+.ertitle{font-family:var(--orb);font-size:.88rem;font-weight:700;color:var(--blue)}
+
+/* CTA */
+.cta{padding:8rem 3.5rem;text-align:center;position:relative;overflow:hidden;background:var(--bg2)}
+.cta::before{content:'PACT';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--orb);font-weight:900;font-size:28vw;color:rgba(0,120,200,.03);pointer-events:none;white-space:nowrap}
+.cta-lbl{font-family:var(--mono);font-size:.6rem;color:var(--acid);letter-spacing:4px;text-transform:uppercase;margin-bottom:1.5rem}
+.cta-title{font-family:var(--orb);font-size:clamp(2rem,5vw,4rem);font-weight:900;color:var(--white);margin-bottom:1.5rem;line-height:1.05}
+.cta-title .ac{color:var(--blue)}
+.cta-sub{font-size:.9rem;color:#4a7a90;max-width:480px;margin:0 auto 2.8rem;line-height:2}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+/* FOOTER */
+footer{border-top:1px solid rgba(0,100,160,.18);padding:2rem 3.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.flogo{font-family:var(--orb);font-size:.95rem;font-weight:700;color:var(--blue);letter-spacing:4px}
+.finfo{font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:2px;text-align:right;line-height:1.9}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}.nav-links{display:none}
+  .hero{padding:5rem 1.5rem 6rem}.hero-corner{display:none}
+  .s{padding:4rem 1.5rem}hr.dv{margin:0 1.5rem}
+  .about-grid,.who-grid{grid-template-columns:1fr;gap:2.5rem}
+  .cta{padding:5rem 1.5rem}
+  footer{padding:1.5rem;flex-direction:column;align-items:flex-start}.finfo{text-align:left}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <!-- Pixel P lettermark -->
+    <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="4" y="4" width="4" height="28" fill="#00b4ff"/>
+      <rect x="8" y="4" width="12" height="4" fill="#00b4ff"/>
+      <rect x="20" y="4" width="4" height="4" fill="#00b4ff"/>
+      <rect x="24" y="8" width="4" height="4" fill="#00b4ff"/>
+      <rect x="24" y="12" width="4" height="4" fill="#00b4ff"/>
+      <rect x="20" y="16" width="4" height="4" fill="#00b4ff"/>
+      <rect x="8" y="16" width="12" height="4" fill="#00b4ff"/>
+      <!-- acid accent pixels -->
+      <rect x="22" y="22" width="4" height="4" fill="#d4ff00"/>
+      <rect x="26" y="26" width="4" height="4" fill="#d4ff00"/>
+      <rect x="22" y="30" width="4" height="4" fill="#d4ff00"/>
+    </svg>
+    <span class="logo-text">P<em>A</em>CT</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">[01] About</a></li>
+    <li><a href="#why">[02] Why PACT</a></li>
+    <li><a href="#explore">[03] Explore</a></li>
+    <li><a href="#events">[04] Events</a></li>
+    <li><a href="#join">[05] Join</a></li>
+  </ul>
+  <a href="#cta" class="btn-nav">Join PACT →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-corner">UCALGARY · SU CLUB<br>EST. 2025 · INTERDISCIPLINARY<br>STATUS: <span style="color:#d4ff00">RECRUITING</span></div>
+
+  <!-- Primary pixel blob (Etherfuse-style, electric blue) -->
+  <svg class="hero-blob-main" viewBox="0 0 260 300" width="440" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="60"  y="0"   width="60"  height="20" fill="#00b4ff"/>
+    <rect x="40"  y="20"  width="100" height="20" fill="#00b4ff"/>
+    <rect x="20"  y="40"  width="140" height="20" fill="#00b4ff"/>
+    <rect x="0"   y="60"  width="180" height="20" fill="#00b4ff"/>
+    <rect x="0"   y="80"  width="200" height="20" fill="#00b4ff"/>
+    <rect x="0"   y="100" width="220" height="20" fill="#00b4ff"/>
+    <rect x="0"   y="120" width="240" height="20" fill="#00b4ff"/>
+    <rect x="0"   y="140" width="260" height="20" fill="#00b4ff"/>
+    <rect x="0"   y="160" width="260" height="20" fill="#00b4ff"/>
+    <rect x="20"  y="180" width="220" height="20" fill="#00b4ff"/>
+    <rect x="40"  y="200" width="200" height="20" fill="#00b4ff"/>
+    <rect x="60"  y="220" width="160" height="20" fill="#00b4ff"/>
+    <rect x="80"  y="240" width="120" height="20" fill="#00b4ff"/>
+    <rect x="100" y="260" width="80"  height="20" fill="#00b4ff"/>
+    <rect x="120" y="280" width="40"  height="20" fill="#00b4ff"/>
+  </svg>
+
+  <!-- Ghost blob (acid yellow, bottom-left) -->
+  <svg class="hero-blob-ghost" viewBox="0 0 180 220" width="300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="40"  y="0"   width="40"  height="20" fill="#d4ff00"/>
+    <rect x="20"  y="20"  width="80"  height="20" fill="#d4ff00"/>
+    <rect x="0"   y="40"  width="120" height="20" fill="#d4ff00"/>
+    <rect x="0"   y="60"  width="140" height="20" fill="#d4ff00"/>
+    <rect x="0"   y="80"  width="160" height="20" fill="#d4ff00"/>
+    <rect x="0"   y="100" width="180" height="20" fill="#d4ff00"/>
+    <rect x="0"   y="120" width="180" height="20" fill="#d4ff00"/>
+    <rect x="20"  y="140" width="140" height="20" fill="#d4ff00"/>
+    <rect x="40"  y="160" width="100" height="20" fill="#d4ff00"/>
+    <rect x="60"  y="180" width="60"  height="20" fill="#d4ff00"/>
+    <rect x="80"  y="200" width="20"  height="20" fill="#d4ff00"/>
+  </svg>
+
+  <div class="hero-content">
+    <div class="sys-tag">UCalgary SU Club · Initializing 2025 <span class="blink">_</span></div>
+    <h1 class="hero-title" data-text="PACT">PACT</h1>
+    <p class="hero-sub">Policy&nbsp;·&nbsp;AI&nbsp;·&nbsp;Civic&nbsp;Technology</p>
+    <p class="hero-desc">A student-led UCalgary club exploring how AI and emerging technologies shape law, policy, privacy, rights, and public life. Every background welcome. No experience required.</p>
+    <div class="hero-btns">
+      <a href="#cta" class="btn-p">Join PACT</a>
+      <a href="#exec" class="btn-o">Exec Roles</a>
+    </div>
+  </div>
+
+  <div class="ticker">
+    <span class="ticker-inner">
+      &nbsp;◈ AI GOVERNANCE &nbsp;·&nbsp; ◈ DIGITAL RIGHTS &nbsp;·&nbsp; ◈ PRIVACY LAW &nbsp;·&nbsp; ◈ CYBERSECURITY POLICY &nbsp;·&nbsp; ◈ ALGORITHMIC BIAS &nbsp;·&nbsp; ◈ RESPONSIBLE INNOVATION &nbsp;·&nbsp; ◈ PUBLIC-SECTOR AI &nbsp;·&nbsp; ◈ CIVIC TECHNOLOGY &nbsp;·&nbsp; ◈ TECH ETHICS &nbsp;·&nbsp; ◈ SMART CITIES &nbsp;·&nbsp; ◈ AI IN HEALTHCARE &nbsp;·&nbsp; ◈ SURVEILLANCE &amp; DEMOCRACY &nbsp;·&nbsp; ◈ DATA PROTECTION &nbsp;·&nbsp; ◈ TECHNOLOGY LAW &nbsp;·&nbsp;
+      &nbsp;◈ AI GOVERNANCE &nbsp;·&nbsp; ◈ DIGITAL RIGHTS &nbsp;·&nbsp; ◈ PRIVACY LAW &nbsp;·&nbsp; ◈ CYBERSECURITY POLICY &nbsp;·&nbsp; ◈ ALGORITHMIC BIAS &nbsp;·&nbsp; ◈ RESPONSIBLE INNOVATION &nbsp;·&nbsp; ◈ PUBLIC-SECTOR AI &nbsp;·&nbsp; ◈ CIVIC TECHNOLOGY &nbsp;·&nbsp; ◈ TECH ETHICS &nbsp;·&nbsp; ◈ SMART CITIES &nbsp;·&nbsp; ◈ AI IN HEALTHCARE &nbsp;·&nbsp; ◈ SURVEILLANCE &amp; DEMOCRACY &nbsp;·&nbsp; ◈ DATA PROTECTION &nbsp;·&nbsp; ◈ TECHNOLOGY LAW &nbsp;·&nbsp;
+    </span>
+  </div>
+</section>
+
+<!-- Pixel wave (SOFTICA-style) — JS generated -->
+<div class="wave-wrap" id="wave1" style="background:var(--bg2)"></div>
+
+<!-- ABOUT [01] -->
+<section class="s dk" id="about">
+  <div class="slbl">[01] About PACT</div>
+  <h2 class="stitle">An Interdisciplinary<br><span class="ac">Student Collective</span></h2>
+  <div class="about-grid">
+    <div>
+      <p class="sbody">PACT is a student organization at the University of Calgary built around the intersection of artificial intelligence, emerging technology, public policy, law, privacy, digital rights, and civic impact.</p>
+      <br>
+      <p class="sbody">We exist because AI is advancing faster than the policies, regulations, and public conversations surrounding it — and students across every discipline have a role to play in shaping what comes next. PACT is the space where that conversation begins.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="num">300+</div><div class="lbl">UCalgary SU Clubs — PACT is next</div></div>
+      <div class="stat"><div class="num">10+</div><div class="lbl">Disciplines Welcome</div></div>
+      <div class="stat"><div class="num ac2">0</div><div class="lbl">Prior Experience Required</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="wave-wrap" id="wave2" style="background:var(--bg)"></div>
+
+<!-- WHY [02] -->
+<section class="s" id="why">
+  <div class="slbl">[02] Why PACT</div>
+  <h2 class="stitle">Why This<br><span class="ac">Matters Now</span></h2>
+  <p class="sbody">AI is reshaping law, democracy, healthcare, and public life in real time — but the policies and protections surrounding it are still catching up. Students need a space to understand these forces and help shape what comes next.</p>
+  <div class="why-grid">
+    <div class="wcard">
+      <div class="wid">// 01 · URGENCY</div>
+      <div class="wtitle">Policy Can't Keep Up</div>
+      <div class="wbody">Regulation and public understanding of AI lag far behind the technology. PACT helps students understand this gap — and how to help close it.</div>
+    </div>
+    <div class="wcard">
+      <div class="wid">// 02 · GAP</div>
+      <div class="wtitle">An Unmet Space on Campus</div>
+      <div class="wbody">No existing UCalgary club focuses specifically on AI governance, digital rights, and civic technology together. PACT fills that gap.</div>
+    </div>
+    <div class="wcard">
+      <div class="wid">// 03 · DESIGN</div>
+      <div class="wtitle">Interdisciplinary by Design</div>
+      <div class="wbody">The biggest AI policy challenges require law, engineering, ethics, public health, and political science in the same room. That's what PACT builds.</div>
+    </div>
+    <div class="wcard">
+      <div class="wid">// 04 · IMPACT</div>
+      <div class="wtitle">Students Have a Voice</div>
+      <div class="wbody">Tech governance is being shaped right now. PACT gives students the skills, network, and platform to contribute from day one.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="dv">
+
+<!-- EXPLORE [03] -->
+<section class="s dk" id="explore">
+  <div class="slbl">[03] What We Explore</div>
+  <h2 class="stitle">Topics at the<br><span class="ac">Frontier</span></h2>
+  <p class="sbody">From algorithmic bias to smart city surveillance, PACT covers the full spectrum of where technology meets society, governance, and human rights.</p>
+  <div class="ex-grid">
+    <div class="ex-item"><div class="ex-dot"></div><div class="ex-text">AI Governance &amp; Regulation</div></div>
+    <div class="ex-item"><div class="ex-dot"></div><div class="ex-text">Privacy &amp; Data Protection</div></div>
+    <div class="ex-item"><div class="ex-dot"></div><div class="ex-text">Cybersecurity Policy</div></div>
+    <div class="ex-item"><div class="ex-dot"></div><div class="ex-text">Digital Rights</div></div>
+    <div class="ex-item"><div class="ex-dot"></div><div class="ex-text">Technology Law</div></div>
+    <div class="ex-item"><div class="ex-dot"></div><div class="ex-text">AI in Healthcare</div></div>
+    <div class="ex-item"><div class="ex-dot"></div><div class="ex-text">Smart Cities &amp; Surveillance</div></div>
+    <div class="ex-item"><div class="ex-dot"></div><div class="ex-text">Responsible Innovation</div></div>
+    <div class="ex-item"><div class="ex-dot"></div><div class="ex-text">Algorithmic Bias</div></div>
+    <div class="ex-item"><div class="ex-dot"></div><div class="ex-text">Public-Sector AI</div></div>
+    <div class="ex-item"><div class="ex-dot"></div><div class="ex-text">Democracy &amp; Technology</div></div>
+    <div class="ex-item"><div class="ex-dot"></div><div class="ex-text">Tech Ethics &amp; Civic Impact</div></div>
+  </div>
+</section>
+
+<div class="wave-wrap" id="wave3" style="background:var(--bg2)"></div>
+
+<!-- EVENTS [04] -->
+<section class="s" id="events">
+  <div class="slbl">[04] What We'll Do</div>
+  <h2 class="stitle">Events &amp;<br><span class="ac">Initiatives</span></h2>
+  <p class="sbody">PACT is a platform for building real skills, connecting with experts, and contributing to important conversations — not just listening to them.</p>
+  <div class="ev-grid">
+    <div class="ecard">
+      <div class="enum">// EVENT TYPE 01</div>
+      <div class="etitle">Speaker Panels</div>
+      <div class="edesc">Lawyers, policymakers, researchers, and tech professionals discussing AI, governance, and careers at the intersection of tech and policy.</div>
+    </div>
+    <div class="ecard">
+      <div class="enum">// EVENT TYPE 02</div>
+      <div class="etitle">Discussion Nights</div>
+      <div class="edesc">Student-led conversations on emerging issues — from surveillance and data rights to AI regulation bills and digital democracy.</div>
+    </div>
+    <div class="ecard">
+      <div class="enum">// EVENT TYPE 03</div>
+      <div class="etitle">Workshops</div>
+      <div class="edesc">Introductory sessions on policy analysis, digital rights, privacy tools, and more. No background needed — just curiosity.</div>
+    </div>
+    <div class="ecard">
+      <div class="enum">// EVENT TYPE 04</div>
+      <div class="etitle">Policy Brief Writing</div>
+      <div class="edesc">Collaborative sessions to produce student-authored briefs on pressing AI and technology governance questions.</div>
+    </div>
+    <div class="ecard">
+      <div class="enum">// EVENT TYPE 05</div>
+      <div class="etitle">Reading Groups</div>
+      <div class="edesc">Deep-dives into key texts, papers, reports, and legislation shaping the global AI policy landscape.</div>
+    </div>
+    <div class="ecard">
+      <div class="enum">// EVENT TYPE 06</div>
+      <div class="etitle">Club Collaborations</div>
+      <div class="edesc">Joint events with pre-law, computer science, political science, cybersecurity, and health science clubs across campus.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="dv">
+
+<!-- WHO [05] -->
+<section class="s dk" id="join">
+  <div class="slbl">[05] Who Should Join</div>
+  <h2 class="stitle">Built for Every<br><span class="ac">Curious Student</span></h2>
+  <div class="who-grid">
+    <div>
+      <p class="sbody">PACT is designed for students from all programs and backgrounds. If you're curious about how AI and technology affect the world — you belong here.</p>
+      <div class="tags">
+        <span class="tag">Political Science</span><span class="tag">Law &amp; Society</span>
+        <span class="tag">Computer Science</span><span class="tag">Cybersecurity</span>
+        <span class="tag">Data Science</span><span class="tag">Engineering</span>
+        <span class="tag">Philosophy</span><span class="tag">Communications</span>
+        <span class="tag">Health Sciences</span><span class="tag">Business</span>
+        <span class="tag">Public Policy</span><span class="tag">Ethics</span>
+        <span class="tag">Social Work</span><span class="tag">And More →</span>
+      </div>
+      <div class="noexp">
+        <p>No background in technology or policy required. Whether you're technical, policy-focused, law-focused, or simply curious — PACT is for you.</p>
+      </div>
+    </div>
+    <div class="who-right">
+      <p class="sbody">Why join PACT? Because the future of AI governance, digital rights, and civic technology will be shaped by people who understand both the technology and its social impact.</p>
+      <p class="sbody">PACT gives you the opportunity to build skills in research, writing, public speaking, event planning, policy analysis, and civic engagement — while meeting like-minded students across disciplines.</p>
+      <p class="sbody">Explore career paths in law, public policy, AI governance, cybersecurity policy, responsible innovation, government, research, advocacy, and technology — all from one community.</p>
+    </div>
+  </div>
+</section>
+
+<div class="wave-wrap" id="wave4" style="background:var(--bg)"></div>
+
+<!-- EXEC [06] -->
+<section class="s" id="exec">
+  <div class="slbl">[06] Executive Team</div>
+  <h2 class="stitle">Help Build<br><span class="ac">PACT</span></h2>
+  <p class="sbody">PACT is looking for motivated students to help build the club from the ground up. Executive roles are an opportunity to lead, learn, and shape a new student movement.</p>
+  <div class="exec-grid">
+    <div class="erole"><div class="erid">ROLE · 01</div><div class="ertitle">Vice President</div></div>
+    <div class="erole"><div class="erid">ROLE · 02</div><div class="ertitle">VP Events</div></div>
+    <div class="erole"><div class="erid">ROLE · 03</div><div class="ertitle">VP Research &amp; Policy</div></div>
+    <div class="erole"><div class="erid">ROLE · 04</div><div class="ertitle">VP Communications</div></div>
+    <div class="erole"><div class="erid">ROLE · 05</div><div class="ertitle">VP Finance</div></div>
+    <div class="erole"><div class="erid">ROLE · 06</div><div class="ertitle">Secretary</div></div>
+    <div class="erole"><div class="erid">ROLE · 07</div><div class="ertitle">VP Outreach</div></div>
+    <div class="erole"><div class="erid">ROLE · 08</div><div class="ertitle">General Executive</div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="cta">
+  <!-- acid blob decoration -->
+  <svg style="position:absolute;left:-1%;top:50%;transform:translateY(-52%);opacity:.1;pointer-events:none" viewBox="0 0 200 240" width="320" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="60"  y="0"   width="40"  height="20" fill="#d4ff00"/>
+    <rect x="40"  y="20"  width="80"  height="20" fill="#d4ff00"/>
+    <rect x="20"  y="40"  width="120" height="20" fill="#d4ff00"/>
+    <rect x="0"   y="60"  width="160" height="20" fill="#d4ff00"/>
+    <rect x="0"   y="80"  width="180" height="20" fill="#d4ff00"/>
+    <rect x="0"   y="100" width="200" height="20" fill="#d4ff00"/>
+    <rect x="0"   y="120" width="200" height="20" fill="#d4ff00"/>
+    <rect x="20"  y="140" width="160" height="20" fill="#d4ff00"/>
+    <rect x="40"  y="160" width="120" height="20" fill="#d4ff00"/>
+    <rect x="60"  y="180" width="80"  height="20" fill="#d4ff00"/>
+    <rect x="80"  y="200" width="40"  height="20" fill="#d4ff00"/>
+    <rect x="90"  y="220" width="20"  height="20" fill="#d4ff00"/>
+  </svg>
+  <div style="position:relative;z-index:1">
+    <div class="cta-lbl">◈ Ready to shape the future of tech &amp; society?</div>
+    <h2 class="cta-title">Join <span class="ac">PACT</span> at UCalgary</h2>
+    <p class="cta-sub">Become a founding member. Fill out the interest form to join as a general member or express interest in an executive role. No experience needed — just bring your curiosity.</p>
+    <div class="cta-btns">
+      <a href="#" class="btn-p">Fill Out Interest Form</a>
+      <a href="#exec" class="btn-o">Explore Exec Roles</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="flogo">PACT</div>
+  <div class="finfo">
+    Policy · AI · Civic Technology<br>
+    University of Calgary · SU Registered Club · Est. 2025<br>
+    <span style="color:var(--muted2)">Built by students, for students.</span>
+  </div>
+</footer>
+
+<script>
+// ── Pixel Wave Generator (SOFTICA-inspired) ──
+function makeWave(id, flip) {
+  const heights = [1,2,3,4,3,5,4,3,2,3,4,5,4,3,2,1,2,3,4,3,5,4,5,3,2,3,
+                   4,3,2,1,2,3,4,5,4,3,2,3,4,5,4,3,2,1,2,3,4,3,2,3,4,5,
+                   4,3,2,1,2,3,4,3,5,4,3,2,1,2,3,4,3,2,1,2,3,4,5,4,3,2,
+                   1,2,3,4,3,5,4,3,2,1,2,3,4,3,2,1,2,3,4,5,4,3,2,3,4,5];
+  const cw = 12, ch = 16, H = 80;
+  const W = heights.length * cw;
+  let rects = '';
+  heights.forEach((h, i) => {
+    const px = h * ch;
+    const y = flip ? 0 : H - px;
+    rects += `<rect x="${i*cw}" y="${y}" width="${cw}" height="${px}"/>`;
+  });
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="fill:#00b4ff;opacity:.55;height:64px">${rects}</svg>`;
+}
+makeWave('wave1', false);
+makeWave('wave2', true);
+makeWave('wave3', false);
+makeWave('wave4', true);
+
+// ── Pixel ruler at top (SOFTICA ruler marks) ──
+const ruler = document.createElement('div');
+ruler.style.cssText='position:fixed;top:0;left:0;right:0;height:4px;z-index:200;pointer-events:none;display:flex;align-items:flex-end';
+let html = '';
+for(let i=0;i<100;i++){
+  const big = i%10===0, med = i%5===0;
+  html+=`<div style="flex:1;border-right:1px solid rgba(0,180,255,${big?.5:med?.25:.1});height:${big?'100%':med?'60%':'40%'}"></div>`;
+}
+ruler.innerHTML=html;
+document.body.prepend(ruler);
+</script>
+</body>
+</html>
